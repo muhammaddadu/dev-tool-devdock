@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "productName": "DevDock",
+  "version": "0.0.0",
+  "identifier": "com.devdock.app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "DevDock",
+        "width": 380,
+        "height": 560,
+        "minWidth": 340,
+        "minHeight": 400,
+        "resizable": false,
+        "fullscreen": false,
+        "decorations": false,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "visible": false,
+        "focus": false,
+        "shadow": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": false,
+      "endpoints": [
+        "https://github.com/REPLACE_ME/devdock/releases/latest/download/latest.json"
+      ],
+      "pubkey": "REPLACE_ME_WITH_TAURI_SIGNER_PUBKEY"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "category": "DeveloperTool",
+    "shortDescription": "Manage local development services from the menu bar.",
+    "longDescription": "DevDock discovers what is running on localhost, remembers how it was started, and lets you run, stop, and restart local services without digging through terminal tabs.",
+    "macOS": {
+      "minimumSystemVersion": "12.0"
+    }
+  }
+}

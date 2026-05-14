@@ -1,0 +1,7 @@
+COMMAND     PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node      12345  dadu   24u  IPv4 0x1234567890abcdef      0t0  TCP *:3000 (LISTEN)
+node      12345  dadu   25u  IPv6 0x1234567890abcdf0      0t0  TCP *:3000 (LISTEN)
+Python    56789  dadu   12u  IPv4 0xabcdef1234567890      0t0  TCP 127.0.0.1:8000 (LISTEN)
+node      67890  dadu   30u  IPv6 0xfedcba0987654321      0t0  TCP [::1]:5173 (LISTEN)
+ruby      11111  dadu    9u  IPv4 0x2222222222222222      0t0  TCP 0.0.0.0:4567 (LISTEN)
+ssh       22222  dadu    3u  IPv4 0x3333333333333333      0t0  TCP 10.0.0.1:22->10.0.0.2:443 (ESTABLISHED)
