@@ -9,7 +9,7 @@ All notable changes to DevDock are recorded here. Format based on
 _Nothing yet — add user-visible changes under the appropriate heading_
 _(`Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`)._
 
-## [0.1.0] - 2026-05-13
+## [0.1.0] - 2026-05-28
 
 First MVP release. Tray-only menu bar app for macOS; Linux adapter scaffolded
 but not implemented yet.
