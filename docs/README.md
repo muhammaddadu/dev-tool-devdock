@@ -3,6 +3,10 @@
 Index of documentation for the DevDock project. See [`AGENTS.md`](../AGENTS.md)
 for the contract that governs changes to this repo.
 
+## Get DevDock
+
+- [Downloads](./downloads.md) — pre-built macOS, Linux, and Windows binaries
+
 ## Product
 
 - [Product requirements](./product/prd.md)

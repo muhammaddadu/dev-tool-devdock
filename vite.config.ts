@@ -7,6 +7,12 @@ const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig(async () => ({
   plugins: [react(), tailwindcss()],
+  root: path.resolve(__dirname, "./src"),
+  publicDir: path.resolve(__dirname, "./public"),
+  build: {
+    outDir: path.resolve(__dirname, "./dist"),
+    emptyOutDir: true,
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -31,6 +37,6 @@ export default defineConfig(async () => ({
   test: {
     environment: "jsdom",
     globals: true,
-    setupFiles: ["./src/test-setup.ts"],
+    setupFiles: [path.resolve(__dirname, "./src/test-setup.ts")],
   },
 }));

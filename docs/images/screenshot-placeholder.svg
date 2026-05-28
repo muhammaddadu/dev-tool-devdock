@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" role="img" aria-label="Screenshot placeholder">
+  <defs>
+    <pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#374151"/>
+    </pattern>
+  </defs>
+  <rect width="760" height="480" rx="16" fill="#0b0d12" stroke="#1f2937" stroke-width="2"/>
+  <rect width="760" height="480" rx="16" fill="url(#dots)" opacity="0.6"/>
+  <g font-family="-apple-system, system-ui, sans-serif" fill="#9ca3af" text-anchor="middle">
+    <text x="380" y="232" font-size="22" font-weight="600">Screenshot coming soon</text>
+    <text x="380" y="262" font-size="14" fill="#6b7280">Drop a PNG into docs/images/ and update the README</text>
+  </g>
+</svg>
