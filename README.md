@@ -13,7 +13,7 @@ A macOS menu-bar app that finds what's running on `localhost`, remembers how you
 [![Rust](https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![macOS](https://img.shields.io/badge/macOS-12%2B-000000?logo=apple&logoColor=white)](#)
 
-[**↓ Download for macOS, Linux, or Windows**](./docs/downloads.md) · [Latest release](https://github.com/muhammaddadu/dev-tool-devdock/releases/latest)
+[**↓ Download for macOS, Linux, or Windows**](./docs/downloads.md) · [Latest release](https://github.com/muhammaddadu/dev-tool-devdock/releases/latest) · [Website](https://muhammaddadu.github.io/dev-tool-devdock/)
 
 </div>
 

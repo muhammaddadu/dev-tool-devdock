@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>DevDock — see what's running on localhost</title>
+    <meta name="description" content="DevDock is a macOS menu-bar app that finds what's running on localhost, remembers how you started it, and lets you run, stop, and restart your local services without digging through terminal tabs." />
+    <meta property="og:title" content="DevDock" />
+    <meta property="og:description" content="See what's running on localhost. Run it again. Ship faster." />
+    <meta property="og:image" content="./images/banner.svg" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="./assets/devdock.svg" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <!-- ============================================================
+         NAV
+         ============================================================ -->
+    <header class="nav">
+      <div class="container nav__inner">
+        <a href="./" class="brand" aria-label="DevDock home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span>DevDock</span>
+        </a>
+        <nav class="nav__links" aria-label="Primary">
+          <a class="nav__link" href="#features">Features</a>
+          <a class="nav__link" href="#how-it-works">How it works</a>
+          <a class="nav__link" href="./changelog.html">Changelog</a>
+          <a class="nav__link" href="https://github.com/muhammaddadu/dev-tool-devdock">GitHub</a>
+        </nav>
+        <a class="nav__cta" href="https://github.com/muhammaddadu/dev-tool-devdock/releases/latest">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============================================================
+           HERO
+           ============================================================ -->
+      <section class="container hero" aria-labelledby="hero-h1">
+        <div>
+          <div class="eyebrow">macOS-first · built for developers</div>
+          <h1 id="hero-h1">
+            See what's<br/>running.<br/>
+            <span class="accent">Run it again.</span>
+          </h1>
+          <p class="lead">
+            A native macOS menu-bar app that discovers every process listening on localhost, remembers how you started each one, and gives you run / stop / restart without hunting through terminal tabs.
+          </p>
+          <div class="hero__ctas">
+            <a class="btn btn--primary" href="https://github.com/muhammaddadu/dev-tool-devdock/releases/latest">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              Download for macOS
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/muhammaddadu/dev-tool-devdock">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.1.82-.26.82-.58v-2c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.1-.74.08-.73.08-.73 1.22.08 1.86 1.25 1.86 1.25 1.08 1.84 2.82 1.3 3.5 1 .1-.78.42-1.3.77-1.6-2.66-.3-5.47-1.33-5.47-5.94 0-1.32.47-2.4 1.24-3.23-.12-.3-.54-1.53.12-3.2 0 0 1-.32 3.3 1.23a11.45 11.45 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.67.24 2.9.12 3.2.77.83 1.24 1.91 1.24 3.23 0 4.62-2.82 5.64-5.5 5.93.43.37.82 1.1.82 2.23v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+              View source
+            </a>
+          </div>
+          <div class="hero__meta" aria-label="Highlights">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Apple Silicon &amp; Intel</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> macOS 12+</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> MIT licensed</span>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE MENU-BAR MOCK -->
+        <aside class="mock" id="mock-dropdown" aria-label="Interactive DevDock preview">
+          <div class="mock__menubar">
+            <!-- DevDock tray icon (real shape from src/components/shell/TrayPanel.tsx) -->
+            <svg viewBox="0 0 64 64" width="14" height="14" aria-hidden="true">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="3"/>
+              <circle cx="32" cy="32" r="20" fill="none" stroke="currentColor" stroke-width="3.5"/>
+              <circle cx="32" cy="32" r="6" fill="currentColor"/>
+            </svg>
+            <span>DevDock</span>
+            <div class="right">
+              <span aria-hidden="true">􀐫</span>
+              <span aria-hidden="true">􀋙</span>
+              <span>Tue 9:41</span>
+            </div>
+          </div>
+
+          <div class="mock__header">
+            <h3>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+              All services
+            </h3>
+            <div class="icons">
+              <button id="mock-refresh" title="Refresh (⌘R)" aria-label="Refresh">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <polyline points="1 20 1 14 7 14"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+              </button>
+              <button title="Toggle theme" aria-label="Toggle theme">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+              </button>
+              <button title="Settings" aria-label="Settings">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06A2 2 0 1 1 4.18 16.9l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.11 1.7 1.7 0 0 0-.34-1.87l-.06-.06A2 2 0 1 1 7.07 4.18l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mock__search">
+            <input type="search" placeholder="Search services, ports, projects..." aria-label="Search" />
+          </div>
+
+          <div id="mock-rows"></div>
+
+          <button id="mock-bucket-toggle" class="mock__bucket-toggle" type="button" aria-expanded="false">
+            <span class="label">Show background services</span>
+            <span class="count">0</span>
+          </button>
+
+          <div class="mock__footer">
+            <span>Try it · click a row to stop / start</span>
+            <span><kbd>⌘R</kbd> refresh · <kbd>⌘F</kbd> search</span>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============================================================
+           FEATURES
+           ============================================================ -->
+      <section class="section" id="features" aria-labelledby="features-h2">
+        <div class="container">
+          <div class="section__head">
+            <h2 id="features-h2">Localhost, <span class="accent">no surprises</span>.</h2>
+            <p>DevDock surfaces the things you actually need when you're juggling four dev servers at 2am.</p>
+          </div>
+          <div class="features">
+            <article class="feature">
+              <div class="feature__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+              </div>
+              <h3>Port discovery</h3>
+              <p>Walks every TCP listener via <code>lsof</code>, dedupes IPv4/IPv6, and tells you the port, PID, command, and cwd.</p>
+            </article>
+            <article class="feature">
+              <div class="feature__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <h3>Run · Stop · Restart</h3>
+              <p>Save how a service was started — DevDock spawns it via <code>$SHELL -ic</code> in the right cwd so <code>nvm</code> &amp; <code>asdf</code> just work.</p>
+            </article>
+            <article class="feature">
+              <div class="feature__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v4H4z"/><path d="M4 12h12v4H4z"/><path d="M4 20h8"/></svg>
+              </div>
+              <h3>Captured logs</h3>
+              <p>stdout &amp; stderr stream to per-run log files, viewable in a dialog. No more "where did that error go?".</p>
+            </article>
+            <article class="feature">
+              <div class="feature__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              </div>
+              <h3>Instant search</h3>
+              <p>Filter the list by label, port, command, cwd, or project name. <kbd>⌘F</kbd> focuses it in one keystroke.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           BUCKETS (real classification from the app)
+           ============================================================ -->
+      <section class="section section--tight" aria-labelledby="buckets-h2">
+        <div class="container">
+          <div class="section__head">
+            <h2 id="buckets-h2">Signal over <span class="accent">noise</span>.</h2>
+            <p>Every process gets sorted into one of three buckets so the things you care about float to the top.</p>
+          </div>
+          <div class="buckets">
+            <article class="bucket bucket--dev">
+              <h3 class="bucket__title">Dev</h3>
+              <p class="bucket__lead">What you're actually building.</p>
+              <p class="bucket__desc">Foreground services launched from a project root — your web server, your API, your database, your background workers.</p>
+              <div class="bucket__examples">
+                <span class="chip">next dev</span>
+                <span class="chip">cargo run</span>
+                <span class="chip">postgres</span>
+                <span class="chip">redis-server</span>
+              </div>
+            </article>
+            <article class="bucket bucket--tooling">
+              <h3 class="bucket__title">Tooling</h3>
+              <p class="bucket__lead">Helpers that keep dev running.</p>
+              <p class="bucket__desc">IDE helpers, language servers, container runtimes, ADB, anything inside an <code>.app/Contents/</code> bundle — visible but tucked under a fold.</p>
+              <div class="bucket__examples">
+                <span class="chip">rust-analyzer</span>
+                <span class="chip">tsserver</span>
+                <span class="chip">Docker</span>
+                <span class="chip">OrbStack</span>
+              </div>
+            </article>
+            <article class="bucket bucket--system">
+              <h3 class="bucket__title">System</h3>
+              <p class="bucket__lead">macOS doing macOS things.</p>
+              <p class="bucket__desc">Apple daemons and consumer apps that happen to bind a port. Hidden by default, one click away when you want them.</p>
+              <div class="bucket__examples">
+                <span class="chip">rapportd</span>
+                <span class="chip">ControlCenter</span>
+                <span class="chip">sharingd</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           LOGS + AI SPLIT
+           ============================================================ -->
+      <section class="section" aria-labelledby="split-h2">
+        <div class="container">
+          <div class="section__head">
+            <h2 id="split-h2">Tail the logs. <span class="accent">Ask your AI.</span></h2>
+            <p>The two things you actually do when something breaks — built in, opt-in, local-first.</p>
+          </div>
+          <div class="split">
+            <!-- Logs panel -->
+            <article class="surface">
+              <div class="surface__head">
+                <h3>Per-run logs</h3>
+                <p>stdout &amp; stderr captured to <code>~/Library/Application&nbsp;Support/DevDock/logs/&lt;run-id&gt;.log</code>.</p>
+              </div>
+              <div class="surface__body">
+                <div class="logs" aria-label="Sample log output">
+<span class="ts">14:02:18</span> <span class="info">[next]</span> ready - started server on 0.0.0.0:3000
+<span class="ts">14:02:19</span> <span class="info">[next]</span> compiled successfully in 412 ms (1234 modules)
+<span class="ts">14:02:24</span> <span class="ok">GET</span>   / 200 in 38ms
+<span class="ts">14:02:24</span> <span class="ok">GET</span>   /_next/static/chunks/main.js 200
+<span class="ts">14:02:25</span> <span class="ok">GET</span>   /api/health 200 in 4ms
+<span class="ts">14:02:31</span> <span class="warn">WARN</span> useEffect missing dependency: 'fetchUser'
+<span class="ts">14:02:42</span> <span class="ok">POST</span>  /api/auth/login 200 in 112ms
+<span class="ts">14:02:48</span> <span class="err">ERR</span>  /api/billing 500 — TypeError: Cannot read 'plan'
+<span class="ts">14:02:49</span> <span class="info">[next]</span> ⨯ rendering page /billing failed
+<span class="ts">14:02:53</span> <span class="ok">GET</span>   /billing 200 in 78ms (after restart)
+                </div>
+              </div>
+            </article>
+
+            <!-- AI suggestions -->
+            <article class="surface">
+              <div class="surface__head">
+                <h3>Local AI suggestions <span style="font-size:11px;color:var(--text-mute);font-weight:500;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);padding:2px 8px;border-radius:999px;margin-left:6px;">opt-in</span></h3>
+                <p>Point DevDock at whichever AI CLI you already have installed — it stays local, you stay in control.</p>
+              </div>
+              <div class="surface__body">
+                <div class="ai-list">
+                  <div class="ai-card">
+                    <div class="ai-card__icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="ai-card__body">
+                      Detected a Next.js project at <code>~/work/acme/web</code>.
+                      <div class="dim">Suggested command: <code>pnpm dev</code> on port 3000.</div>
+                    </div>
+                  </div>
+                  <div class="ai-card">
+                    <div class="ai-card__icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="ai-card__body">
+                      Stale <code>node</code> still bound to <code>:5173</code> with no parent shell.
+                      <div class="dim">Suggested action: free the port before next launch.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ai-providers" aria-label="Supported AI providers">
+                  <span class="provider"><span class="dot"></span>Claude</span>
+                  <span class="provider"><span class="dot"></span>Codex</span>
+                  <span class="provider"><span class="dot"></span>Cursor</span>
+                  <span class="provider off"><span class="dot"></span>Ollama</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           HOW IT WORKS
+           ============================================================ -->
+      <section class="section section--tight" id="how-it-works" aria-labelledby="how-h2">
+        <div class="container">
+          <div class="section__head">
+            <h2 id="how-h2">Up and running in <span class="accent">three steps</span>.</h2>
+            <p>No background services to install, no daemons to babysit. Just open the menu bar.</p>
+          </div>
+          <ol class="steps">
+            <li class="step">
+              <span class="step__num">1</span>
+              <h3>Download</h3>
+              <p>Grab the latest signed bundle for Apple Silicon or Intel from GitHub Releases.</p>
+              <code>DevDock_*.dmg</code>
+            </li>
+            <li class="step">
+              <span class="step__num">2</span>
+              <h3>Detect</h3>
+              <p>DevDock scans every TCP listener and groups them by project. You'll see your stack in the menu bar in under a second.</p>
+              <code>⌘ Space → DevDock</code>
+            </li>
+            <li class="step">
+              <span class="step__num">3</span>
+              <h3>Manage</h3>
+              <p>Save the commands you use. Run, stop, and restart from the menu bar — descendant processes reaped cleanly.</p>
+              <code>Run · Stop · Restart</code>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           FINAL CTA
+           ============================================================ -->
+      <section class="container" aria-label="Download">
+        <div class="cta">
+          <h2>Take control of <span class="accent">localhost</span>.</h2>
+          <p>Free &amp; open source. macOS-first, with Linux on the roadmap and Windows scaffolded.</p>
+          <div class="cta__ctas">
+            <a class="btn btn--primary" href="https://github.com/muhammaddadu/dev-tool-devdock/releases/latest">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              Download DevDock
+            </a>
+            <a class="btn btn--ghost" href="https://github.com/muhammaddadu/dev-tool-devdock">
+              Star on GitHub
+            </a>
+          </div>
+          <p class="cta__small">No account · No telemetry · No background daemon</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="brand" style="font-size:14px;">
+          <span class="brand__mark" style="width:22px;height:22px;border-radius:6px;" aria-hidden="true"></span>
+          <span>DevDock</span>
+        </div>
+        <div class="links">
+          <a href="./changelog.html">Changelog</a>
+          <a href="https://github.com/muhammaddadu/dev-tool-devdock">GitHub</a>
+          <a href="https://github.com/muhammaddadu/dev-tool-devdock/blob/main/LICENSE">MIT License</a>
+          <a href="https://github.com/muhammaddadu/dev-tool-devdock/blob/main/docs/downloads.md">Downloads</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
