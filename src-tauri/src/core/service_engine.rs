@@ -36,12 +36,12 @@ impl ClassifierContext {
 /// truncated and full process names.
 const TOOLING_NAME_PREFIXES: &[&str] = &[
     // Editors and their helper processes
-    "Code Help",     // VS Code Helper, VS Code Helper (Plugin/Renderer/GPU)
-    "Code",          // VS Code main
-    "Cursor He",     // Cursor Helper
+    "Code Help", // VS Code Helper, VS Code Helper (Plugin/Renderer/GPU)
+    "Code",      // VS Code main
+    "Cursor He", // Cursor Helper
     "Cursor",
     "Windsurf",
-    "Sublime T",     // Sublime Text
+    "Sublime T", // Sublime Text
     "subl",
     // JetBrains IDEs (truncated forms)
     "idea",
@@ -58,19 +58,19 @@ const TOOLING_NAME_PREFIXES: &[&str] = &[
     // Language servers / debug bridges
     "adb",
     "gopls",
-    "rust-anal",     // rust-analyzer
+    "rust-anal", // rust-analyzer
     "tsserver",
-    "typescript",    // typescript-language-server
+    "typescript", // typescript-language-server
     "pyright",
     "clangd",
-    "lua-langu",     // lua-language-server
-    "metals",        // Scala
-    "solargrap",     // solargraph (Ruby)
+    "lua-langu", // lua-language-server
+    "metals",    // Scala
+    "solargrap", // solargraph (Ruby)
     // Container & dev environment UIs
-    "Docker De",     // Docker Desktop
-    "com.docke",     // com.docker.backend
+    "Docker De", // Docker Desktop
+    "com.docke", // com.docker.backend
     "OrbStack",
-    "Rancher D",     // Rancher Desktop
+    "Rancher D", // Rancher Desktop
     "colima",
     // Misc local dev infra
     "ngrok",
@@ -88,19 +88,19 @@ const TOOLING_NAME_PREFIXES: &[&str] = &[
 const SYSTEM_NAME_PREFIXES: &[&str] = &[
     // Apple system daemons
     "rapportd",
-    "ControlCe",     // ControlCenter (truncated)
-    "mDNSResp",      // mDNSResponder
+    "ControlCe", // ControlCenter (truncated)
+    "mDNSResp",  // mDNSResponder
     "sharingd",
-    "nsurlses",      // nsurlsessiond
+    "nsurlses", // nsurlsessiond
     "cloudd",
-    "identitys",     // identityservicesd
+    "identitys", // identityservicesd
     "AirPlay",
     "remoted",
     "trustd",
     "apsd",
-    "callserv",      // callservicesd
+    "callserv", // callservicesd
     "secd",
-    "syncdefa",      // syncdefaultsd
+    "syncdefa", // syncdefaultsd
     "softwareupdate",
     "screensharingd",
     "homed",
@@ -113,7 +113,7 @@ const SYSTEM_NAME_PREFIXES: &[&str] = &[
     "Spotify",
     "Slack",
     "Discord",
-    "Google",        // Google Drive / Google Software Update
+    "Google", // Google Drive / Google Software Update
     "1Password",
     "Loom",
     "Zoom",
@@ -150,10 +150,16 @@ pub fn classify(
         return ServiceBucket::Dev;
     };
 
-    if SYSTEM_NAME_PREFIXES.iter().any(|prefix| name.starts_with(prefix)) {
+    if SYSTEM_NAME_PREFIXES
+        .iter()
+        .any(|prefix| name.starts_with(prefix))
+    {
         return ServiceBucket::System;
     }
-    if TOOLING_NAME_PREFIXES.iter().any(|prefix| name.starts_with(prefix)) {
+    if TOOLING_NAME_PREFIXES
+        .iter()
+        .any(|prefix| name.starts_with(prefix))
+    {
         return ServiceBucket::Tooling;
     }
     ServiceBucket::Dev
@@ -174,11 +180,7 @@ fn is_app_bundle_cwd(cwd: Option<&str>) -> bool {
     c.contains(".app/Contents/")
 }
 
-fn is_devdock_self(
-    cwd: Option<&str>,
-    project_root: Option<&str>,
-    ctx: &ClassifierContext,
-) -> bool {
+fn is_devdock_self(cwd: Option<&str>, project_root: Option<&str>, ctx: &ClassifierContext) -> bool {
     let Some(dev_root) = ctx.dev_root.as_deref() else {
         return false;
     };
@@ -235,7 +237,12 @@ fn label_for(enriched: &EnrichedSocket) -> String {
             return process.process_name.clone();
         }
     }
-    if let Some(name) = enriched.socket.process_name.as_deref().filter(|s| !s.is_empty()) {
+    if let Some(name) = enriched
+        .socket
+        .process_name
+        .as_deref()
+        .filter(|s| !s.is_empty())
+    {
         return name.to_string();
     }
     format!("Port {}", enriched.socket.port)
@@ -371,10 +378,7 @@ pub fn service_views(enriched: &[EnrichedSocket], ctx: &ClassifierContext) -> Ve
 ///
 /// Returns the merged list. Order isn't guaranteed — the frontend's section
 /// filter (Running / Pinned / Recently Seen) handles presentation.
-pub fn merge_with_saved(
-    detected: Vec<ServiceView>,
-    saved: &[SavedService],
-) -> Vec<ServiceView> {
+pub fn merge_with_saved(detected: Vec<ServiceView>, saved: &[SavedService]) -> Vec<ServiceView> {
     merge(detected, saved, &HashMap::new())
 }
 
@@ -399,10 +403,7 @@ pub fn merge(
 
     for view in &mut detected {
         let Some(port) = view.port else { continue };
-        let Some(saved_entry) = saved
-            .iter()
-            .find(|s| s.expected_ports.contains(&port))
-        else {
+        let Some(saved_entry) = saved.iter().find(|s| s.expected_ports.contains(&port)) else {
             continue;
         };
         let managed_entry = managed.get(&saved_entry.id);
@@ -444,10 +445,7 @@ pub fn merge(
     detected
 }
 
-fn view_for_saved(
-    s: &SavedService,
-    managed: Option<&ManagedProcessRecord>,
-) -> ServiceView {
+fn view_for_saved(s: &SavedService, managed: Option<&ManagedProcessRecord>) -> ServiceView {
     let port = s.expected_ports.first().copied();
     let is_starting = managed.is_some();
     ServiceView {
@@ -599,50 +597,110 @@ mod tests {
             },
             &ctx(),
         );
-        assert_ne!(a.id, b.id, "different start time should yield different IDs");
+        assert_ne!(
+            a.id, b.id,
+            "different start time should yield different IDs"
+        );
     }
 
     #[test]
     fn classifies_apple_daemons_as_system() {
         let c = ctx();
-        assert_eq!(classify(Some("rapportd"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("ControlCe"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("ControlCenter"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("mDNSResponder"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("sharingd"), None, None, &c), ServiceBucket::System);
+        assert_eq!(
+            classify(Some("rapportd"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("ControlCe"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("ControlCenter"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("mDNSResponder"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("sharingd"), None, None, &c),
+            ServiceBucket::System
+        );
     }
 
     #[test]
     fn classifies_consumer_apps_as_system() {
         let c = ctx();
-        assert_eq!(classify(Some("Dropbox"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("Slack Helper"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("Loom"), None, None, &c), ServiceBucket::System);
-        assert_eq!(classify(Some("zoom.us"), None, None, &c), ServiceBucket::System);
+        assert_eq!(
+            classify(Some("Dropbox"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("Slack Helper"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("Loom"), None, None, &c),
+            ServiceBucket::System
+        );
+        assert_eq!(
+            classify(Some("zoom.us"), None, None, &c),
+            ServiceBucket::System
+        );
     }
 
     #[test]
     fn classifies_ide_helpers_as_tooling() {
         let c = ctx();
-        assert_eq!(classify(Some("Code Helper"), None, None, &c), ServiceBucket::Tooling);
+        assert_eq!(
+            classify(Some("Code Helper"), None, None, &c),
+            ServiceBucket::Tooling
+        );
         assert_eq!(
             classify(Some("Code Helper (Plugin)"), None, None, &c),
             ServiceBucket::Tooling
         );
-        assert_eq!(classify(Some("Cursor Helper"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("WebStorm"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("idea"), None, None, &c), ServiceBucket::Tooling);
+        assert_eq!(
+            classify(Some("Cursor Helper"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("WebStorm"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("idea"), None, None, &c),
+            ServiceBucket::Tooling
+        );
     }
 
     #[test]
     fn classifies_dev_infra_as_tooling() {
         let c = ctx();
-        assert_eq!(classify(Some("adb"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("gopls"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("tsserver"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("rust-analyzer"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("Docker Desktop"), None, None, &c), ServiceBucket::Tooling);
-        assert_eq!(classify(Some("OrbStack"), None, None, &c), ServiceBucket::Tooling);
+        assert_eq!(
+            classify(Some("adb"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("gopls"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("tsserver"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("rust-analyzer"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("Docker Desktop"), None, None, &c),
+            ServiceBucket::Tooling
+        );
+        assert_eq!(
+            classify(Some("OrbStack"), None, None, &c),
+            ServiceBucket::Tooling
+        );
     }
 
     #[test]
@@ -711,10 +769,19 @@ mod tests {
     fn classifies_dev_servers_as_dev() {
         let c = ctx();
         assert_eq!(classify(Some("node"), None, None, &c), ServiceBucket::Dev);
-        assert_eq!(classify(Some("python3.12"), None, None, &c), ServiceBucket::Dev);
+        assert_eq!(
+            classify(Some("python3.12"), None, None, &c),
+            ServiceBucket::Dev
+        );
         assert_eq!(classify(Some("ruby"), None, None, &c), ServiceBucket::Dev);
-        assert_eq!(classify(Some("postgres"), None, None, &c), ServiceBucket::Dev);
-        assert_eq!(classify(Some("redis-server"), None, None, &c), ServiceBucket::Dev);
+        assert_eq!(
+            classify(Some("postgres"), None, None, &c),
+            ServiceBucket::Dev
+        );
+        assert_eq!(
+            classify(Some("redis-server"), None, None, &c),
+            ServiceBucket::Dev
+        );
         assert_eq!(classify(Some("cargo"), None, None, &c), ServiceBucket::Dev);
     }
 
@@ -747,7 +814,11 @@ mod tests {
 
     #[test]
     fn display_command_keeps_flags_verbatim() {
-        let cmd = vec!["cargo".to_string(), "--release".to_string(), "-v".to_string()];
+        let cmd = vec![
+            "cargo".to_string(),
+            "--release".to_string(),
+            "-v".to_string(),
+        ];
         assert_eq!(
             super::display_command(&cmd).as_deref(),
             Some("cargo --release -v"),
@@ -779,7 +850,11 @@ mod tests {
         )];
         let merged = super::merge_with_saved(detected, &[saved("Frontend", &[3000], false)]);
 
-        assert_eq!(merged.len(), 1, "no separate stopped row for a claimed saved");
+        assert_eq!(
+            merged.len(),
+            1,
+            "no separate stopped row for a claimed saved"
+        );
         let v = &merged[0];
         assert_eq!(v.label, "Frontend");
         assert_eq!(v.saved_id.as_deref(), Some("svc-Frontend"));
@@ -911,6 +986,9 @@ mod tests {
         let c = ctx();
         assert_eq!(classify(None, None, None, &c), ServiceBucket::Dev);
         assert_eq!(classify(Some(""), None, None, &c), ServiceBucket::Dev);
-        assert_eq!(classify(Some("my-custom-server"), None, None, &c), ServiceBucket::Dev);
+        assert_eq!(
+            classify(Some("my-custom-server"), None, None, &c),
+            ServiceBucket::Dev
+        );
     }
 }

@@ -61,10 +61,7 @@ impl ManagedRuntime {
 
     /// Spawn a saved service. Returns immediately once the process is up;
     /// monitoring (and cleanup on exit) happens in a background task.
-    pub async fn spawn(
-        &self,
-        saved: &SavedService,
-    ) -> Result<ManagedProcessRecord, RuntimeError> {
+    pub async fn spawn(&self, saved: &SavedService) -> Result<ManagedProcessRecord, RuntimeError> {
         if self.is_running(&saved.id) {
             return Err(RuntimeError::AlreadyRunning);
         }
@@ -193,7 +190,10 @@ fn send_group_signal(_pid: i32, _sig: Signal) {
 
 /// Convenience wrapper: stop the service, wait briefly for the registry to
 /// clear, then spawn fresh. Designed for the Restart button.
-pub async fn restart(rt: &ManagedRuntime, saved: &SavedService) -> Result<ManagedProcessRecord, RuntimeError> {
+pub async fn restart(
+    rt: &ManagedRuntime,
+    saved: &SavedService,
+) -> Result<ManagedProcessRecord, RuntimeError> {
     if rt.is_running(&saved.id) {
         let _ = rt.stop(&saved.id);
         // Poll up to ~3s for the wait task to see exit. This is more reliable

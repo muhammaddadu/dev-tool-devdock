@@ -30,9 +30,10 @@ impl Default for MacOsAdapter {
 
 impl PlatformAdapter for MacOsAdapter {
     fn list_listening_sockets(&self) -> PlatformResult<Vec<ListeningSocket>> {
-        let output = Command::new("lsof").args(LSOF_ARGS).output().map_err(|e| {
-            PlatformError::CommandFailed(format!("failed to spawn lsof: {e}"))
-        })?;
+        let output = Command::new("lsof")
+            .args(LSOF_ARGS)
+            .output()
+            .map_err(|e| PlatformError::CommandFailed(format!("failed to spawn lsof: {e}")))?;
 
         // lsof exits with 1 when there are no matching sockets. That's an
         // empty-but-valid result, not a failure. Only treat it as an error if
@@ -94,7 +95,11 @@ impl PlatformAdapter for MacOsAdapter {
     fn list_processes(&self) -> PlatformResult<Vec<ProcessInfo>> {
         let mut sys = sysinfo::System::new();
         sys.refresh_processes(sysinfo::ProcessesToUpdate::All, false);
-        Ok(sys.processes().values().map(process_info_from_sysinfo).collect())
+        Ok(sys
+            .processes()
+            .values()
+            .map(process_info_from_sysinfo)
+            .collect())
     }
 
     fn terminate_process(&self, pid: u32) -> PlatformResult<()> {
@@ -326,7 +331,11 @@ mod tests {
     fn dedupes_ipv4_and_ipv6_on_same_pid_port() {
         let sockets = parse_lsof_listening_ports(FIXTURE);
         let on_3000: Vec<_> = sockets.iter().filter(|s| s.port == 3000).collect();
-        assert_eq!(on_3000.len(), 1, "expected one entry for :3000 after dedupe");
+        assert_eq!(
+            on_3000.len(),
+            1,
+            "expected one entry for :3000 after dedupe"
+        );
         assert_eq!(on_3000[0].pid, Some(12345));
     }
 
@@ -370,10 +379,7 @@ mod tests {
 
     #[test]
     fn split_host_port_handles_all_forms() {
-        assert_eq!(
-            split_host_port("*:3000"),
-            Some(("*".to_string(), 3000))
-        );
+        assert_eq!(split_host_port("*:3000"), Some(("*".to_string(), 3000)));
         assert_eq!(
             split_host_port("127.0.0.1:8000"),
             Some(("127.0.0.1".to_string(), 8000))

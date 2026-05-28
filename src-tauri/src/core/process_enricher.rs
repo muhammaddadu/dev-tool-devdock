@@ -271,9 +271,8 @@ fn read_cargo_toml_name(dir: &Path) -> Option<String> {
     // pulling in a TOML parser for this single field. The non-greedy capture
     // tolerates other keys between `[package]` and `name`.
     static RE: std::sync::OnceLock<regex::Regex> = std::sync::OnceLock::new();
-    let re = RE.get_or_init(|| {
-        regex::Regex::new(r#"\[package\][\s\S]*?\bname\s*=\s*"([^"]+)""#).unwrap()
-    });
+    let re = RE
+        .get_or_init(|| regex::Regex::new(r#"\[package\][\s\S]*?\bname\s*=\s*"([^"]+)""#).unwrap());
     let caps = re.captures(&content)?;
     let name = caps.get(1)?.as_str().trim();
     if name.is_empty() {

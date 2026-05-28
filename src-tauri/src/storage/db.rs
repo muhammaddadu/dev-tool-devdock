@@ -12,9 +12,8 @@ use sqlx::{sqlite::SqliteConnectOptions, SqlitePool};
 /// and return a connection pool.
 pub async fn open(path: &Path) -> Result<SqlitePool> {
     if let Some(parent) = path.parent() {
-        std::fs::create_dir_all(parent).with_context(|| {
-            format!("creating data directory {}", parent.display())
-        })?;
+        std::fs::create_dir_all(parent)
+            .with_context(|| format!("creating data directory {}", parent.display()))?;
     }
 
     let options = SqliteConnectOptions::new()

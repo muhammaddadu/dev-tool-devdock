@@ -210,10 +210,7 @@ pub async fn run_service(
 }
 
 #[tauri::command]
-pub async fn stop_service(
-    service_id: String,
-    state: State<'_, AppState>,
-) -> AppResult<()> {
+pub async fn stop_service(service_id: String, state: State<'_, AppState>) -> AppResult<()> {
     state
         .runtime
         .stop(&service_id)
@@ -244,7 +241,9 @@ async fn load_saved(db: &SqlitePool, service_id: &str) -> AppResult<SavedService
 #[tauri::command]
 pub async fn open_url(app: AppHandle, url: String) -> AppResult<()> {
     if !is_safe_url(&url) {
-        return Err(AppError::InvalidInput(format!("refusing to open URL: {url}")));
+        return Err(AppError::InvalidInput(format!(
+            "refusing to open URL: {url}"
+        )));
     }
     app.opener()
         .open_url(url, None::<&str>)
@@ -296,7 +295,11 @@ pub async fn open_in_editor(editor: String, path: String) -> AppResult<()> {
 }
 
 #[tauri::command]
-pub async fn quit_app(stop_managed: bool, app: AppHandle, state: State<'_, AppState>) -> AppResult<()> {
+pub async fn quit_app(
+    stop_managed: bool,
+    app: AppHandle,
+    state: State<'_, AppState>,
+) -> AppResult<()> {
     if stop_managed {
         let snapshot = state.runtime.snapshot();
         for service_id in snapshot.keys() {
@@ -326,9 +329,8 @@ pub async fn read_log_tail(path: String, max_bytes: Option<u64>) -> AppResult<St
     // Canonicalize to defeat ".."/symlink escape attempts.
     let log_dir = paths::app_data_dir().join("logs");
     let canonical_dir = std::fs::canonicalize(&log_dir).map_err(AppError::Io)?;
-    let canonical_target = std::fs::canonicalize(&path).map_err(|e| {
-        AppError::InvalidInput(format!("log file not found ({e})"))
-    })?;
+    let canonical_target = std::fs::canonicalize(&path)
+        .map_err(|e| AppError::InvalidInput(format!("log file not found ({e})")))?;
     if !canonical_target.starts_with(&canonical_dir) {
         return Err(AppError::InvalidInput(
             "refusing to read paths outside the logs directory".into(),

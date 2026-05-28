@@ -110,9 +110,7 @@ pub fn open_in(editor_id: &str, path: &str) -> Result<(), String> {
     // Try the CLI first — when the editor is already running, opening via
     // `code <path>` etc. reuses the existing window. That matches what a user
     // expects when they ask to "open in <editor>".
-    if which(editor.cli).is_some()
-        && Command::new(editor.cli).arg(path).spawn().is_ok()
-    {
+    if which(editor.cli).is_some() && Command::new(editor.cli).arg(path).spawn().is_ok() {
         return Ok(());
     }
 

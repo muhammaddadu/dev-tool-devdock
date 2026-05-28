@@ -15,8 +15,14 @@ pub fn diff_snapshots(
     let prev_set: HashSet<_> = prev.iter().collect();
     let next_set: HashSet<_> = next.iter().collect();
 
-    let added = next_set.difference(&prev_set).map(|s| (*s).clone()).collect();
-    let removed = prev_set.difference(&next_set).map(|s| (*s).clone()).collect();
+    let added = next_set
+        .difference(&prev_set)
+        .map(|s| (*s).clone())
+        .collect();
+    let removed = prev_set
+        .difference(&next_set)
+        .map(|s| (*s).clone())
+        .collect();
 
     (added, removed)
 }

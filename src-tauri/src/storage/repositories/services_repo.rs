@@ -40,8 +40,8 @@ pub async fn list(pool: &SqlitePool) -> Result<Vec<SavedService>> {
 pub async fn insert(pool: &SqlitePool, input: NewSavedService) -> Result<SavedService> {
     let id = ids::new_id();
     let now = time::iso_now();
-    let ports_json = serde_json::to_string(&input.expected_ports)
-        .context("serializing expected_ports")?;
+    let ports_json =
+        serde_json::to_string(&input.expected_ports).context("serializing expected_ports")?;
 
     sqlx::query(
         r#"
@@ -79,8 +79,8 @@ pub struct ServiceUpdate {
 }
 
 pub async fn update(pool: &SqlitePool, id: &str, input: ServiceUpdate) -> Result<SavedService> {
-    let ports_json = serde_json::to_string(&input.expected_ports)
-        .context("serializing expected_ports")?;
+    let ports_json =
+        serde_json::to_string(&input.expected_ports).context("serializing expected_ports")?;
     let res = sqlx::query(
         r#"
         UPDATE services
