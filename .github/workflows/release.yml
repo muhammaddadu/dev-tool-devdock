@@ -58,7 +58,10 @@ jobs:
         include:
           - label: macOS (Apple Silicon + Intel)
             os: macos-14
-            target: universal-apple-darwin
+            # `universal-apple-darwin` is a tauri build mode, not a rustup
+            # target. Install both real targets so `tauri build --target
+            # universal-apple-darwin` can lipo them together.
+            target: aarch64-apple-darwin,x86_64-apple-darwin
             args: --target universal-apple-darwin
           - label: Linux (x86_64)
             os: ubuntu-22.04
